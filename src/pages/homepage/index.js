@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Grid, Image, Label, Button } from "semantic-ui-react";
 import styled from "styled-components";
 
 const StyledCard = styled(Grid.Row)`
   &&.row {
-    padding: 50px 100px;
+    padding: 15px 100px 30px;
     text-align: center;
   }
   && .ui.basic.black.button {
@@ -37,21 +38,47 @@ const StyledCard = styled(Grid.Row)`
   }
 `;
 
-const Homepage = ({ completeData }) => {
-  const [initCount, setInitCount] = useState(0);
+const StyledFooter = styled(Grid)`
+  && {
+    background: black;
+    color: white;
+    text-align: center;
+  }
+  && .row {
+    padding: 50px 100px 20px;
+  }
+  && .footer-title {
+    display: block;
+    width: 100%;
+  }
+  && .footer-desc {
+    color: grey;
+  }
+  && .label {
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    padding: 5px;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    border-radius: 15px;
+  }
+  && .label span {
+    font-weight: 400;
+  }
+  && img {
+    object-fit: cover;
+    border-radius: 10px;
+  }
+`;
+
+const Homepage = ({ completeData, categoryName }) => {
   const [articlesData, setArticlesData] = useState();
   const [nonfeaturedData, setNonfeaturedData] = useState();
-  const [activeItem, setActiveItem] = useState("all");
-  const [categoryData, setCategoryData] = useState({
-    foodData: [],
-    travelData: [],
-    fashionData: [],
-    filmData: [],
-    businessData: [],
-  });
+  const [featuredData, setFeaturedData] = useState();
 
   useEffect(() => {
-    if (completeData && initCount === 0) {
+    if (completeData) {
       let falseData = completeData;
       falseData = falseData.data.filter((item) => item.is_featured === false);
       let sortedData = falseData.sort(
@@ -61,142 +88,61 @@ const Homepage = ({ completeData }) => {
       );
       setNonfeaturedData(sortedData);
 
-      let foodData = sortedData;
-      let travelData = sortedData;
-      let fashionData = sortedData;
-      let filmData = sortedData;
-      let businessData = sortedData;
-      foodData = foodData.filter((item) => item.categories.id === 1);
-      travelData = travelData.filter((item) => item.categories.id === 2);
-      fashionData = fashionData.filter((item) => item.categories.id === 3);
-      filmData = filmData.filter((item) => item.categories.id === 4);
-      businessData = businessData.filter((item) => item.categories.id === 5);
-      setCategoryData({
-        foodData,
-        travelData,
-        fashionData,
-        filmData,
-        businessData,
-      });
-
       setArticlesData(sortedData);
-      setInitCount(1);
-    }
-  }, [completeData, initCount]);
 
-  const handleItemClick = (_, { name }) => {
-    setActiveItem(name);
-    switch (name) {
-      case "all":
-        setArticlesData(nonfeaturedData);
-        break;
-      case "fashion":
-        setArticlesData(categoryData.fashionData);
-        break;
-      case "film":
-        setArticlesData(categoryData.filmData);
-        break;
-      case "food":
-        setArticlesData(categoryData.foodData);
-        break;
-      case "travel":
-        setArticlesData(categoryData.travelData);
-        break;
-      case "business":
-        setArticlesData(categoryData.businessData);
-        break;
-      default:
-        return;
+      let trueData = completeData;
+      trueData = trueData.data.filter((item) => item.is_featured === true);
+      trueData = trueData.slice(0, 3);
+      setFeaturedData(trueData);
     }
-  };
+  }, [completeData, categoryName]);
+
+  useEffect(() => {
+    if (nonfeaturedData) {
+      let catData = nonfeaturedData;
+      switch (categoryName) {
+        case "all":
+          setArticlesData(catData);
+          break;
+        case "fashion":
+          setArticlesData(catData.filter((item) => item.categories.id === 3));
+          break;
+        case "film":
+          setArticlesData(catData.filter((item) => item.categories.id === 4));
+          break;
+        case "food":
+          setArticlesData(catData.filter((item) => item.categories.id === 1));
+          break;
+        case "travel":
+          setArticlesData(catData.filter((item) => item.categories.id === 2));
+          break;
+        case "business":
+          setArticlesData(catData.filter((item) => item.categories.id === 5));
+          break;
+        default:
+          return;
+      }
+    }
+  }, [categoryName, nonfeaturedData]);
 
   return (
     <Grid>
       <StyledCard>
-        <Grid.Column width={4} />
-        <Grid.Column width={4}>
-          <Button
-            basic
-            color="black"
-            name="all"
-            className={activeItem === "all" && "active"}
-            onClick={handleItemClick}
-          >
-            All Articles
-          </Button>
-        </Grid.Column>
-        <Grid.Column width={4}>
-          <Button
-            basic
-            color="black"
-            name="fashion"
-            className={activeItem === "fashion" && "active"}
-            onClick={handleItemClick}
-          >
-            Fashion & Beauty
-          </Button>
-        </Grid.Column>
-        <Grid.Column width={4}>
-          <Button
-            basic
-            color="black"
-            name="film"
-            className={activeItem === "film" && "active"}
-            onClick={handleItemClick}
-          >
-            Film
-          </Button>
-        </Grid.Column>
-        <Grid.Column width={4} />
-        <Grid.Column width={4} className="menu-border">
-          <Button
-            basic
-            color="black"
-            name="food"
-            className={activeItem === "food" && "active"}
-            onClick={handleItemClick}
-          >
-            Food & Drink
-          </Button>
-        </Grid.Column>
-        <Grid.Column width={4} className="menu-border">
-          <Button
-            basic
-            color="black"
-            name="travel"
-            className={activeItem === "travel" && "active"}
-            onClick={handleItemClick}
-          >
-            Travel
-          </Button>
-        </Grid.Column>
-        <Grid.Column width={4} className="menu-border">
-          <Button
-            basic
-            color="black"
-            name="business"
-            className={activeItem === "business" && "active"}
-            onClick={handleItemClick}
-          >
-            Business & Work
-          </Button>
-        </Grid.Column>
-        <Grid.Column width={16}>
-          <br />
-        </Grid.Column>
         {articlesData &&
           articlesData.length > 0 &&
           articlesData.map((item, index) => {
             return (
               <Grid.Column key={index} width={8}>
-                <Image src={item.image} width="100%" height="300" />
-                <br />
-                <Label basic color="black">
-                  <span>By</span> {item.author}
-                </Label>
-                <h3>{item.title}</h3>
-                <br />
-                <br />
+                <Link to={`/detail/${item.id}`}>
+                  <Image src={item.image} width="100%" height="300" />
+                  <br />
+                  <Label basic color="black">
+                    <span>By</span> {item.author}
+                  </Label>
+                  <h3>{item.title}</h3>
+                  <br />
+                  <br />
+                </Link>
               </Grid.Column>
             );
           })}
@@ -206,6 +152,34 @@ const Homepage = ({ completeData }) => {
           )}
         </Grid.Column>
       </StyledCard>
+
+      <StyledFooter columns="equal">
+        <Grid.Row>
+          <div className="footer-title">
+            <h1>Empowering Minds</h1>
+            <h3 className="footer-desc">
+              Insights and Strategies for Personal and Professional Growth
+            </h3>
+            <br />
+          </div>
+          {featuredData &&
+            featuredData.length > 0 &&
+            featuredData.map((item, index) => {
+              return (
+                <Grid.Column key={index}>
+                  <Image src={item.image} width="100%" height="200" />
+                  <br />
+                  <Label>
+                    <span>By</span> {item.author}
+                  </Label>
+                  <h3>{item.title}</h3>
+                  <br />
+                  <br />
+                </Grid.Column>
+              );
+            })}
+        </Grid.Row>
+      </StyledFooter>
     </Grid>
   );
 };

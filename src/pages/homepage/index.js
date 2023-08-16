@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Grid, Image, Label, Button, Menu } from "semantic-ui-react";
+import { Grid, Image, Label, Button } from "semantic-ui-react";
 import styled from "styled-components";
 
 const StyledCard = styled(Grid.Row)`
@@ -22,10 +22,6 @@ const StyledCard = styled(Grid.Row)`
   && .ui.basic.black.button.active {
     color: #ff7518 !important;
   }
-  && img {
-    object-fit: cover;
-    border-radius: 10px;
-  }
   && .label {
     padding: 5px;
     text-transform: uppercase;
@@ -35,14 +31,15 @@ const StyledCard = styled(Grid.Row)`
   && .label span {
     font-weight: 400;
   }
+  && img {
+    object-fit: cover;
+    border-radius: 10px;
+  }
 `;
 
-const url =
-  "https://bitbucket.org/!api/2.0/repositories/sequisinnovationlab/web-developer-test/src/5752ed7c2ecf1eedd96b9404043a2b9efe8c7c96/resources/api";
-
-const Homepage = () => {
+const Homepage = ({ completeData }) => {
+  const [initCount, setInitCount] = useState(0);
   const [articlesData, setArticlesData] = useState();
-  const [featuredData, setFeaturedData] = useState();
   const [nonfeaturedData, setNonfeaturedData] = useState();
   const [activeItem, setActiveItem] = useState("all");
   const [categoryData, setCategoryData] = useState({
@@ -54,48 +51,38 @@ const Homepage = () => {
   });
 
   useEffect(() => {
-    fetch(url + "/articles.json")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        let falseData = data;
-        falseData = falseData.data.filter((item) => item.is_featured === false);
-        let sortedData = falseData.sort(
-          (a, b) =>
-            new Date(...b.created_at.split("/").reverse()) -
-            new Date(...a.created_at.split("/").reverse())
-        );
-        setNonfeaturedData(sortedData);
+    if (completeData && initCount === 0) {
+      let falseData = completeData;
+      falseData = falseData.data.filter((item) => item.is_featured === false);
+      let sortedData = falseData.sort(
+        (a, b) =>
+          new Date(...b.created_at.split("/").reverse()) -
+          new Date(...a.created_at.split("/").reverse())
+      );
+      setNonfeaturedData(sortedData);
 
-        let foodData = sortedData;
-        let travelData = sortedData;
-        let fashionData = sortedData;
-        let filmData = sortedData;
-        let businessData = sortedData;
-        foodData = foodData.filter((item) => item.categories.id === 1);
-        travelData = travelData.filter((item) => item.categories.id === 2);
-        fashionData = fashionData.filter((item) => item.categories.id === 3);
-        filmData = filmData.filter((item) => item.categories.id === 4);
-        businessData = businessData.filter((item) => item.categories.id === 5);
-        setCategoryData({
-          foodData,
-          travelData,
-          fashionData,
-          filmData,
-          businessData,
-        });
-
-        let trueData = data;
-        trueData = trueData.data.filter((item) => item.is_featured === true);
-        setFeaturedData(trueData);
-
-        setArticlesData(sortedData);
-      })
-      .catch((err) => {
-        console.log(err);
+      let foodData = sortedData;
+      let travelData = sortedData;
+      let fashionData = sortedData;
+      let filmData = sortedData;
+      let businessData = sortedData;
+      foodData = foodData.filter((item) => item.categories.id === 1);
+      travelData = travelData.filter((item) => item.categories.id === 2);
+      fashionData = fashionData.filter((item) => item.categories.id === 3);
+      filmData = filmData.filter((item) => item.categories.id === 4);
+      businessData = businessData.filter((item) => item.categories.id === 5);
+      setCategoryData({
+        foodData,
+        travelData,
+        fashionData,
+        filmData,
+        businessData,
       });
-  }, []);
+
+      setArticlesData(sortedData);
+      setInitCount(1);
+    }
+  }, [completeData, initCount]);
 
   const handleItemClick = (_, { name }) => {
     setActiveItem(name);

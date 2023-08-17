@@ -1,26 +1,18 @@
 import { Grid } from "semantic-ui-react";
-import styled from "styled-components";
 
-const StyledFooter = styled(Grid)`
-  && {
-    background: #1e1f21;
-    color: white;
-  }
-  && .row {
-    padding: 20px 30px;
-  }
-  && .footer-orange {
-    color: #ff7518;
-    margin-bottom: 0;
-  }
-`;
+import { StyledFooter } from "./index.style";
 
 const Footer = () => {
   return (
     <StyledFooter>
       <Grid.Row>
         <Grid.Column width={6} />
-        <Grid.Column width={10}>
+        <Grid.Column
+          computer={10}
+          tablet={10}
+          mobile={16}
+          className="mobile-footer"
+        >
           <p className="footer-orange">
             The more that you read, the more things you will know. The more that
             you learn, the more places you'll go.

@@ -1,81 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Image, Label, Button } from "semantic-ui-react";
-import styled from "styled-components";
-
-const StyledCard = styled(Grid.Row)`
-  &&.row {
-    padding: 15px 100px 30px;
-    text-align: center;
-  }
-  && .ui.basic.black.button {
-    border: none;
-    border-radius: 0;
-    box-shadow: none !important;
-    width: 100%;
-    text-align: left;
-    font-weight: bold;
-    padding-left: 0;
-  }
-  && .menu-border .ui.basic.black.button {
-    border-bottom: 2px solid black;
-  }
-  && .ui.basic.black.button.active {
-    color: #ff7518 !important;
-  }
-  && .label {
-    padding: 5px;
-    text-transform: uppercase;
-    font-size: 0.7rem;
-    border-radius: 15px;
-  }
-  && .label span {
-    font-weight: 400;
-  }
-  && img {
-    object-fit: cover;
-    border-radius: 10px;
-  }
-`;
-
-const StyledFooter = styled(Grid)`
-  && {
-    background: black;
-    color: white;
-    text-align: center;
-  }
-  && .row {
-    padding: 50px 100px 20px;
-  }
-  && .footer-title {
-    display: block;
-    width: 100%;
-  }
-  && .footer-desc {
-    color: grey;
-  }
-  && .label {
-    border: 1px solid white;
-    background: transparent;
-    color: white;
-    padding: 5px;
-    text-transform: uppercase;
-    font-size: 0.7rem;
-    border-radius: 15px;
-  }
-  && .label span {
-    font-weight: 400;
-  }
-  && img {
-    object-fit: cover;
-    border-radius: 10px;
-  }
-`;
+import { StyledCard, StyledFeature } from "./index.style";
 
 const Homepage = ({ completeData, categoryName }) => {
   const [articlesData, setArticlesData] = useState();
   const [nonfeaturedData, setNonfeaturedData] = useState();
   const [featuredData, setFeaturedData] = useState();
+  const [compareData, setCompareData] = useState();
 
   useEffect(() => {
     if (completeData) {
@@ -100,30 +32,43 @@ const Homepage = ({ completeData, categoryName }) => {
   useEffect(() => {
     if (nonfeaturedData) {
       let catData = nonfeaturedData;
+      let compData;
+      let moreData;
       switch (categoryName) {
         case "all":
-          setArticlesData(catData);
+          compData = catData;
           break;
         case "fashion":
-          setArticlesData(catData.filter((item) => item.categories.id === 3));
+          compData = catData.filter((item) => item.categories.id === 3);
           break;
         case "film":
-          setArticlesData(catData.filter((item) => item.categories.id === 4));
+          compData = catData.filter((item) => item.categories.id === 4);
           break;
         case "food":
-          setArticlesData(catData.filter((item) => item.categories.id === 1));
+          compData = catData.filter((item) => item.categories.id === 1);
           break;
         case "travel":
-          setArticlesData(catData.filter((item) => item.categories.id === 2));
+          compData = catData.filter((item) => item.categories.id === 2);
           break;
         case "business":
-          setArticlesData(catData.filter((item) => item.categories.id === 5));
+          compData = catData.filter((item) => item.categories.id === 5);
           break;
         default:
           return;
       }
+      setCompareData(compData);
+
+      moreData = compData;
+      if (moreData.length > 10) {
+        moreData = moreData.slice(0, 10);
+      }
+      setArticlesData(moreData);
     }
   }, [categoryName, nonfeaturedData]);
+
+  const handleMoreArticles = () => {
+    setArticlesData(compareData.slice(0, articlesData.length + 10));
+  };
 
   return (
     <Grid>
@@ -132,35 +77,38 @@ const Homepage = ({ completeData, categoryName }) => {
           articlesData.length > 0 &&
           articlesData.map((item, index) => {
             return (
-              <Grid.Column key={index} width={8}>
+              <Grid.Column key={index} computer={8} tablet={8} mobile={16}>
                 <Link to={`/detail/${item.id}`}>
                   <Image src={item.image} width="100%" height="300" />
-                  <br />
                   <Label basic color="black">
                     <span>By</span> {item.author}
                   </Label>
                   <h3>{item.title}</h3>
-                  <br />
-                  <br />
                 </Link>
               </Grid.Column>
             );
           })}
         <Grid.Column width={16}>
-          {articlesData && articlesData.length > 10 && (
-            <Button color="orange">More Articles</Button>
-          )}
+          {articlesData &&
+            compareData &&
+            articlesData.length < compareData.length && (
+              <Button
+                className="more-articles"
+                onClick={() => handleMoreArticles()}
+              >
+                More Articles
+              </Button>
+            )}
         </Grid.Column>
       </StyledCard>
 
-      <StyledFooter columns="equal">
+      <StyledFeature columns="equal">
         <Grid.Row>
           <div className="footer-title">
             <h1>Empowering Minds</h1>
             <h3 className="footer-desc">
               Insights and Strategies for Personal and Professional Growth
             </h3>
-            <br />
           </div>
           {featuredData &&
             featuredData.length > 0 &&
@@ -168,18 +116,15 @@ const Homepage = ({ completeData, categoryName }) => {
               return (
                 <Grid.Column key={index}>
                   <Image src={item.image} width="100%" height="200" />
-                  <br />
                   <Label>
                     <span>By</span> {item.author}
                   </Label>
                   <h3>{item.title}</h3>
-                  <br />
-                  <br />
                 </Grid.Column>
               );
             })}
         </Grid.Row>
-      </StyledFooter>
+      </StyledFeature>
     </Grid>
   );
 };

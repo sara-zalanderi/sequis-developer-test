@@ -25,6 +25,4 @@ export const StyledFooter = styled(Grid)`
       text-align: center;
     }
   }
-  @media only screen and (min-width: 768px) and (max-width: 991px) {
-  }
 `;

@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "title": "All Articles",
+      "alias": "all"
+    },
+    {
+      "id": 1,
+      "title": "Food & Drink",
+      "alias": "food"
+    },
+    {
+      "id": 2,
+      "title": "Travel",
+      "alias": "travel"
+    },
+    {
+      "id": 3,
+      "title": "Fashion & Beauty",
+      "alias": "fashion"
+    },
+    {
+      "id": 4,
+      "title": "Film",
+      "alias": "film"
+    },
+    {
+      "id": 5,
+      "title": "Business & Work",
+      "alias": "business"
+    }
+  ]
+}

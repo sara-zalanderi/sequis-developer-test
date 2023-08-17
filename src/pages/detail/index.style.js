@@ -91,7 +91,7 @@ export const StyledDetail = styled(Grid.Row)`
       height: 200px;
     }
   }
-  @media only screen and (min-width: 320px) and (max-width: 767px) {
+  @media only screen and (min-width: 320px) and (max-width: 991px) {
     &&.row {
       padding-right: 15px;
       padding-left: 15px;
@@ -105,7 +105,5 @@ export const StyledDetail = styled(Grid.Row)`
     && .detail-content {
       padding: 15px;
     }
-  }
-  @media only screen and (min-width: 768px) and (max-width: 991px) {
   }
 `;

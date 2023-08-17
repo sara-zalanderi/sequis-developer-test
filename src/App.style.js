@@ -29,8 +29,8 @@ export const StyledMenu = styled(Grid.Row)`
   && .menu-border {
     border-top: 2px solid black;
   }
-  &&.row > .column.menu-border {
-    width: 23% !important;
+  && .row > .column.menu-border {
+    width: 31.33333333% !important;
     margin-right: 2%;
   }
   && .ui.basic.black.button.active {
@@ -45,7 +45,7 @@ export const StyledMenu = styled(Grid.Row)`
     color: #ff7518;
   }
 
-  @media only screen and (max-width: 320px) {
+  @media only screen and (max-width: 767px) {
     && .icon {
       display: block;
     }
@@ -65,14 +65,6 @@ export const StyledMenu = styled(Grid.Row)`
       font-size: 1rem;
     }
   }
-  @media only screen and (min-width: 320px) and (max-width: 767px) {
-    &&.row {
-      padding-left: 30px;
-      padding-right: 30px;
-    }
-  }
-  @media only screen and (min-width: 768px) and (max-width: 991px) {
-  }
 `;
 
 export const StyledMobile = styled(Grid)`
@@ -80,7 +72,7 @@ export const StyledMobile = styled(Grid)`
     display: none;
   }
 
-  @media only screen and (max-width: 320px) {
+  @media only screen and (max-width: 767px) {
     && {
       display: flex;
       visibility: hidden;
@@ -108,9 +100,14 @@ export const StyledMobile = styled(Grid)`
       background: none;
       font-size: 1rem;
     }
-    &&.visible .item.active {
+    &&.visible .item.active,
+    &&.visible .item.active:hover {
       color: #ff7518;
       background: none;
+    }
+    &&.visible .item:hover {
+      color: initial;
+      background: initial;
     }
     && .ui.vertical.menu .item:before {
       display: none !important;
@@ -123,9 +120,5 @@ export const StyledMobile = styled(Grid)`
       font-size: 1.5rem;
       cursor: pointer;
     }
-  }
-  @media only screen and (min-width: 320px) and (max-width: 767px) {
-  }
-  @media only screen and (min-width: 768px) and (max-width: 991px) {
   }
 `;

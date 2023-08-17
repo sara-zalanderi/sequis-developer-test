@@ -15,3 +15,8 @@ code {
 .ui.grid {
   margin: 0;
 }
+
+.ui.inline.loader {
+  margin-top: 150px;
+  margin-bottom: 150px;
+}

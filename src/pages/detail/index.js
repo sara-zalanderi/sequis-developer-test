@@ -1,32 +1,40 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Grid, Image } from "semantic-ui-react";
+import { Grid, Image, Loader } from "semantic-ui-react";
 import moment from "moment";
 
+import staticData from "../../data/articles.json";
 import { StyledDetail } from "./index.style";
 
 const Detail = ({ url }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [detailData, setDetailData] = useState();
   const location = useLocation();
 
   useEffect(() => {
+    let locPath = parseInt(location.pathname.slice(8));
     fetch(url + "/articles.json")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
         let filteredData = data;
-        filteredData = filteredData.data.find(
-          (item) => item.id === parseInt(location.pathname.slice(8))
-        );
+        filteredData = filteredData.data.find((item) => item.id === locPath);
         setDetailData(filteredData);
+        setIsLoading(false);
       })
       .catch((err) => {
+        let filteredData = staticData;
+        filteredData = filteredData.data.find((item) => item.id === locPath);
+        setDetailData(filteredData);
+        setIsLoading(false);
         console.log(err);
       });
   }, [url, location]);
 
-  return (
+  return isLoading ? (
+    <Loader active inline="centered" />
+  ) : (
     <Grid>
       <StyledDetail>
         {detailData && (

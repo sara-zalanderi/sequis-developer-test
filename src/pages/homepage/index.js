@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Grid, Image, Label, Button } from "semantic-ui-react";
+import { Grid, Image, Label, Button, Loader } from "semantic-ui-react";
 import { StyledCard, StyledFeature } from "./index.style";
 
 const Homepage = ({ completeData, categoryName }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [articlesData, setArticlesData] = useState();
   const [nonfeaturedData, setNonfeaturedData] = useState();
   const [featuredData, setFeaturedData] = useState();
@@ -26,6 +27,7 @@ const Homepage = ({ completeData, categoryName }) => {
       trueData = trueData.data.filter((item) => item.is_featured === true);
       trueData = trueData.slice(0, 3);
       setFeaturedData(trueData);
+      setIsLoading(false);
     }
   }, [completeData, categoryName]);
 
@@ -38,17 +40,17 @@ const Homepage = ({ completeData, categoryName }) => {
         case "all":
           compData = catData;
           break;
-        case "fashion":
-          compData = catData.filter((item) => item.categories.id === 3);
-          break;
-        case "film":
-          compData = catData.filter((item) => item.categories.id === 4);
-          break;
         case "food":
           compData = catData.filter((item) => item.categories.id === 1);
           break;
         case "travel":
           compData = catData.filter((item) => item.categories.id === 2);
+          break;
+        case "fashion":
+          compData = catData.filter((item) => item.categories.id === 3);
+          break;
+        case "film":
+          compData = catData.filter((item) => item.categories.id === 4);
           break;
         case "business":
           compData = catData.filter((item) => item.categories.id === 5);
@@ -70,7 +72,9 @@ const Homepage = ({ completeData, categoryName }) => {
     setArticlesData(compareData.slice(0, articlesData.length + 10));
   };
 
-  return (
+  return isLoading ? (
+    <Loader active inline="centered" />
+  ) : (
     <Grid>
       <StyledCard>
         {articlesData &&
@@ -115,11 +119,13 @@ const Homepage = ({ completeData, categoryName }) => {
             featuredData.map((item, index) => {
               return (
                 <Grid.Column key={index}>
-                  <Image src={item.image} width="100%" height="200" />
-                  <Label>
-                    <span>By</span> {item.author}
-                  </Label>
-                  <h3>{item.title}</h3>
+                  <Link to={`/detail/${item.id}`}>
+                    <Image src={item.image} width="100%" height="200" />
+                    <Label>
+                      <span>By</span> {item.author}
+                    </Label>
+                    <h3>{item.title}</h3>
+                  </Link>
                 </Grid.Column>
               );
             })}

@@ -31,6 +31,12 @@ export const StyledCard = styled(Grid.Row)`
     text-transform: uppercase;
     font-weight: 400;
   }
+  && .column {
+    transition: transform 0.3s;
+  }
+  && .column:hover {
+    transform: scale(1.1);
+  }
   && h3 {
     color: black;
     font-weight: 400;
@@ -95,7 +101,14 @@ export const StyledFeature = styled(Grid)`
     color: grey;
     margin-bottom: 35px;
   }
+  && .column {
+    transition: transform 0.3s;
+  }
+  && .column:hover {
+    transform: scale(1.1);
+  }
   && h3 {
+    color: white;
     font-weight: 400;
     margin: 0.7em 1.7em 2.5em;
   }

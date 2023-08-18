@@ -135,9 +135,6 @@ export const StyledFeature = styled(Grid)`
       padding-right: 0;
       padding-left: 0;
     }
-    && .row > .column {
-      width: 100%;
-    }
     && img {
       height: 200px;
     }
@@ -147,11 +144,13 @@ export const StyledFeature = styled(Grid)`
       padding-right: 15px;
       padding-left: 15px;
     }
-    && .row > .column {
-      width: 100%;
-    }
     && img {
       height: 300px;
+    }
+  }
+  @media only screen and (max-width: 767px) {
+    && .row > .column {
+      width: 100%;
     }
   }
   @media only screen and (min-width: 768px) and (max-width: 991px) {

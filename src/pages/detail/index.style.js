@@ -66,20 +66,11 @@ export const StyledDetail = styled(Grid.Row)`
       padding-right: 0;
       padding-left: 0;
     }
-    && h1,
-    && h2,
-    && p {
-      padding-left: 0;
-      padding-right: 0;
-    }
     && h1 {
       font-size: 2rem;
     }
     && h2 {
       font-size: 1.4rem;
-    }
-    && .detail-content {
-      padding: 15px;
     }
     && .detail-image {
       margin: -19px -15px -15px;
@@ -96,6 +87,8 @@ export const StyledDetail = styled(Grid.Row)`
       padding-right: 15px;
       padding-left: 15px;
     }
+  }
+  @media only screen and (max-width: 991px) {
     && h1,
     && h2,
     && p {

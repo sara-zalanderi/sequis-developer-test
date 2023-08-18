@@ -14,15 +14,17 @@ export const StyledFooter = styled(Grid)`
     color: #ff7518;
     margin-bottom: 0;
   }
+  && .row > .column.footer-logo {
+    display: flex;
+    align-items: center;
+  }
 
-  @media only screen and (max-width: 320px) {
+  @media only screen and (max-width: 767px) {
     && .mobile-footer {
       text-align: center;
     }
-  }
-  @media only screen and (min-width: 320px) and (max-width: 767px) {
-    && .mobile-footer {
-      text-align: center;
+    && .row > .column.footer-logo {
+      justify-content: center;
     }
   }
 `;

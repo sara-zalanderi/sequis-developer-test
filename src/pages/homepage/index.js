@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Grid, Image, Label, Button, Loader } from "semantic-ui-react";
+import { Grid, Label, Button, Loader } from "semantic-ui-react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
 import { StyledCard, StyledFeature } from "./index.style";
 
 const Homepage = ({ completeData, categoryName }) => {
@@ -83,7 +85,12 @@ const Homepage = ({ completeData, categoryName }) => {
             return (
               <Grid.Column key={index} computer={8} tablet={8} mobile={16}>
                 <Link to={`/detail/${item.id}`}>
-                  <Image src={item.image} width="100%" height="300" />
+                  <LazyLoadImage
+                    src={item.image}
+                    width="100%"
+                    height="300"
+                    effect="blur"
+                  />
                   <Label basic color="black">
                     <span>By</span> {item.author}
                   </Label>
@@ -120,7 +127,12 @@ const Homepage = ({ completeData, categoryName }) => {
               return (
                 <Grid.Column key={index}>
                   <Link to={`/detail/${item.id}`}>
-                    <Image src={item.image} width="100%" height="200" />
+                    <LazyLoadImage
+                      src={item.image}
+                      width="100%"
+                      height="200"
+                      effect="blur"
+                    />
                     <Label>
                       <span>By</span> {item.author}
                     </Label>

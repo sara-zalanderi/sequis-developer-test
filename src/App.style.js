@@ -8,8 +8,8 @@ export const StyledMenu = styled(Grid.Row)`
   && .dev-logo {
     position: absolute;
     background: rgb(255, 117, 24);
-    top: 50px;
-    left: -23px;
+    top: 36px;
+    left: -37px;
     border-bottom-left-radius: 5px;
     transform: rotate(-90deg);
     padding: 20px 30px 5px 10px;

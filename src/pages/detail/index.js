@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Grid, Image, Loader } from "semantic-ui-react";
+import { Grid, Loader } from "semantic-ui-react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import moment from "moment";
 
 import staticData from "../../data/articles.json";
@@ -40,7 +41,12 @@ const Detail = ({ url }) => {
         {detailData && (
           <Grid.Column>
             <div className="detail-image">
-              <Image src={detailData.image} width="100%" height="450" />
+              <LazyLoadImage
+                src={detailData.image}
+                width="100%"
+                height="450"
+                effect="blur"
+              />
               <span className="detail-info">
                 <p>
                   Published{" "}
